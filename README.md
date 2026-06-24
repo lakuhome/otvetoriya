@@ -1,75 +1,37 @@
 # Ответория
 
-Ответория - веб-приложение для создания и проведения квизов в реальном времени. Проект реализован по требованиям из `C:/Users/user/Desktop/Otvetoriya.docx` и состоит из трех частей: PostgreSQL, backend на Node.js/Express и frontend на Vue 3.
-
-## Что умеет приложение
-
-- регистрация и вход для организаторов и участников
-- создание и редактирование квизов
-- вопросы с одним или несколькими правильными ответами
-- поддержка текстовых вопросов и вопросов с `image_url`
-- запуск игровой комнаты по шестизначному коду
-- подключение участников по коду
-- проведение игры в реальном времени через Socket.IO
-- подсчет очков и итоговая таблица лидеров
-- история участия и история проведенных игр
+Веб-приложение для проведения квизов в реальном времени.
 
 ## Стек
 
-- Frontend: Vue 3, Vite, Vue Router, Tailwind CSS, `fetch`, `socket.io-client`
-- Backend: Node.js, Express, Socket.IO, `pg`, `jsonwebtoken`, `cors`, `dotenv`
-- Database: PostgreSQL, `pgcrypto`, SQL-функции, процедуры, представления, индексы, ограничения целостности
+- Frontend: Vue 3, Vite, Vue Router, Tailwind CSS
+- Backend: Node.js, Express, Socket.IO
+- Database: PostgreSQL
+- Контейнеризация: Docker, Docker Compose, Nginx
 
 ## Структура проекта
 
 ```text
 Project/
-├── client/
-├── server/
-├── database/
-│   ├── migrations/
-│   ├── seeds/
-│   └── reset.sql
-└── README.md
+├── client/       # frontend
+├── server/       # backend
+├── database/     # SQL-миграции и seed-данные
+└── compose.yaml  # запуск проекта через Docker
 ```
 
-## Требования
+## Требования для локального запуска
 
-- Node.js 18+ или новее
-- PostgreSQL 14+ или новее
-- DBeaver или `psql` для применения SQL-файлов
-
-## Настройка базы данных
-
-1. Создайте базу данных `quiz_room`.
-2. Примените миграции по порядку:
-
-```text
-001_extensions.sql
-002_tables.sql
-003_constraints.sql
-004_indexes.sql
-005_auth_functions.sql
-006_game_functions.sql
-007_views.sql
-008_seed.sql
-009_fix_fn_join_game_session.sql
-010_fix_fn_submit_answer_is_correct.sql
-```
-
-3. При необходимости загрузите расширенные тестовые данные:
-
-```sql
-\i database/seeds/extended_demo_seed.sql
-```
-
-Подробный порядок применения можно смотреть в `database/README.md`.
+- Node.js 18+
+- PostgreSQL 14+
+- Docker Desktop
 
 ## Переменные окружения
 
 ### Backend
 
-Создайте файл `server/.env` по примеру `server/.env.example`.
+Файл: `server/.env`
+
+Пример:
 
 ```env
 PORT=3000
@@ -85,14 +47,48 @@ DB_PASSWORD=postgres
 
 ### Frontend
 
-Создайте файл `client/.env` по примеру `client/.env.example`.
+Файл: `client/.env`
+
+Пример:
 
 ```env
 VITE_API_URL=http://localhost:3000/api
 VITE_SOCKET_URL=http://localhost:3000
 ```
 
-## Запуск backend
+## База данных
+
+Имя базы по умолчанию: `quiz_room`
+
+Миграции лежат в `database/migrations` и применяются по порядку:
+
+```text
+001_extensions.sql
+002_tables.sql
+003_constraints.sql
+004_indexes.sql
+005_auth_functions.sql
+006_game_functions.sql
+007_views.sql
+008_seed.sql
+009_fix_fn_join_game_session.sql
+010_fix_fn_submit_answer_is_correct.sql
+011_add_other_category.sql
+```
+
+Дополнительные тестовые данные:
+
+```text
+database/seeds/extended_demo_seed.sql
+```
+
+## Локальный запуск без Docker
+
+### 1. Подготовить базу
+
+Создать базу `quiz_room`, затем применить SQL-файлы из `database/migrations` по порядку.
+
+### 2. Запустить backend
 
 ```bash
 cd server
@@ -100,7 +96,9 @@ npm install
 npm run dev
 ```
 
-## Запуск frontend
+Backend будет доступен на `http://localhost:3000`.
+
+### 3. Запустить frontend
 
 ```bash
 cd client
@@ -108,46 +106,84 @@ npm install
 npm run dev
 ```
 
-Frontend по умолчанию поднимается на `http://localhost:5173`, backend - на `http://localhost:3000`.
+Frontend будет доступен на `http://localhost:5173`.
 
-## Тестовые аккаунты
+## Запуск через Docker
+
+Проект можно поднять полностью через Docker.
+
+### Сборка и запуск
+
+```bash
+docker compose up --build
+```
+
+Или в фоне:
+
+```bash
+docker compose up -d --build
+```
+
+После запуска:
+
+- сайт: `http://localhost:8080`
+- PostgreSQL: `localhost:5432`
+
+### Что поднимается
+
+- `db` — PostgreSQL
+- `server` — Node.js / Express
+- `client` — Nginx + собранный frontend
+
+### Остановка
+
+```bash
+docker compose down
+```
+
+### Полный сброс
+
+```bash
+docker compose down -v
+```
+
+Команда удаляет:
+
+- контейнеры
+- сеть Docker Compose
+- volume PostgreSQL
+
+После этого база будет создана заново при следующем запуске.
+
+## Подключение к PostgreSQL из DBeaver
+
+- Host: `localhost`
+- Port: `5432`
+- Database: `quiz_room`
+- User: `postgres`
+- Password: `postgres`
+
+## Тестовые учетные записи
 
 Основные учетные записи из seed-данных:
 
-- Организатор: `organizer@example.com` / `password123`
-- Участник 1: `participant1@example.com` / `password123`
-- Участник 2: `participant2@example.com` / `password123`
+- `organizer@example.com` / `password123`
+- `participant1@example.com` / `password123`
+- `participant2@example.com` / `password123`
 
-В расширенном сид-файле также добавлены дополнительные участники и несколько готовых квизов для демонстрации.
+## Полезные команды Docker
 
-## Основные сценарии
-
-### Организатор
-
-1. Войти под организатором
-2. Создать или открыть готовый квиз
-3. Добавить вопросы
-4. Запустить комнату
-5. Открывать вопросы по очереди
-6. Завершить игру и посмотреть результаты
-
-### Участник
-
-1. Войти под участником
-2. Ввести код комнаты
-3. Подключиться к игре
-4. Отвечать на вопросы до окончания таймера
-5. Смотреть итоговую таблицу и историю игр
-
-## Полезные файлы
-
-- SQL-схема и функции: `database/migrations`
-- Расширенные тестовые данные: `database/seeds/extended_demo_seed.sql`
-- Backend API и Socket.IO: `server/src`
-- Frontend интерфейс: `client/src`
+```bash
+docker compose ps
+docker compose logs -f
+docker compose down
+docker compose down -v
+docker compose up -d --build
+```
 
 ## Примечания
 
-- Пароли хешируются на стороне PostgreSQL через `pgcrypto`
-- ORM не используется, все запросы выполняются через пакет `pg`
-- Критичное игровое состояние хранится в PostgreSQL, а Socket.IO только синхронизирует клиентов
+- ORM в проекте не используется
+- SQL-запросы выполняются через пакет `pg`
+- пароли хешируются на стороне PostgreSQL через `pgcrypto`
+- backend и frontend могут запускаться отдельно или через Docker

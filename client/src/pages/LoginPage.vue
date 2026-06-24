@@ -40,12 +40,12 @@ function getHomeRoute(role) {
 <template>
   <div class="grid min-h-[calc(100vh-5rem)] gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
     <section class="soft-panel rounded-[2rem] p-8">
-      <p class="text-xs uppercase tracking-[0.32em] text-[var(--muted)]">Ответория</p>
+      <p class="text-xs uppercase tracking-[0.32em] text-[var(--muted)]">Вход</p>
       <h1 class="mt-3 max-w-xl text-5xl font-black leading-none text-[var(--ink)] sm:text-6xl">
-        Онлайн-платформа для квизов и викторин.
+        Войдите в аккаунт.
       </h1>
       <p class="mt-5 max-w-2xl text-base leading-8 text-[var(--muted)]">
-        Здесь организаторы собирают свои квизы, открывают игровые комнаты и проводят живые игры, а участники быстро подключаются по коду и отвечают на вопросы в общем темпе.
+        Используйте email и пароль, чтобы продолжить работу.
       </p>
     </section>
 

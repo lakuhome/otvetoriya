@@ -31,10 +31,10 @@ async function handleRegister(payload) {
 <template>
   <div class="grid min-h-[calc(100vh-5rem)] gap-8 lg:grid-cols-[1fr_1fr] lg:items-center">
     <section class="soft-panel rounded-[2rem] p-8">
-      <p class="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">Новый аккаунт</p>
-      <h1 class="mt-3 text-4xl font-black text-[var(--ink)]">Выберите роль и начните работу.</h1>
+      <p class="text-xs uppercase tracking-[0.28em] text-[var(--muted)]">Регистрация</p>
+      <h1 class="mt-3 text-4xl font-black text-[var(--ink)]">Создайте аккаунт.</h1>
       <p class="mt-5 max-w-2xl text-base leading-8 text-[var(--muted)]">
-        Организатору доступно создание квизов и запуск комнат, а участнику - подключение к игре по коду. Для регистрации достаточно указать имя, email, пароль и нужную роль.
+        Укажите имя, email, пароль и выберите роль.
       </p>
     </section>
 

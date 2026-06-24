@@ -1,6 +1,10 @@
 import { reactive, readonly } from 'vue'
 import { io } from 'socket.io-client'
 
+const DEFAULT_SOCKET_URL =
+  import.meta.env.VITE_SOCKET_URL ||
+  (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000')
+
 const socketState = reactive({
   connected: false,
   lastError: null,
@@ -23,7 +27,7 @@ export function useSocket() {
       socket.disconnect()
     }
 
-    socket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000', {
+    socket = io(DEFAULT_SOCKET_URL, {
       auth: { token },
       autoConnect: true,
     })
@@ -87,4 +91,3 @@ export function useSocket() {
     emitWithAck,
   }
 }
-
