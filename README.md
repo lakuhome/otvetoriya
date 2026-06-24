@@ -118,12 +118,6 @@ Frontend будет доступен на `http://localhost:5173`.
 docker compose up --build
 ```
 
-Или в фоне:
-
-```bash
-docker compose up -d --build
-```
-
 После запуска:
 
 - сайт: `http://localhost:8080`
@@ -147,21 +141,6 @@ docker compose down
 docker compose down -v
 ```
 
-Команда удаляет:
-
-- контейнеры
-- сеть Docker Compose
-- volume PostgreSQL
-
-После этого база будет создана заново при следующем запуске.
-
-## Подключение к PostgreSQL из DBeaver
-
-- Host: `localhost`
-- Port: `5432`
-- Database: `quiz_room`
-- User: `postgres`
-- Password: `postgres`
 
 ## Тестовые учетные записи
 
@@ -171,19 +150,9 @@ docker compose down -v
 - `participant1@example.com` / `password123`
 - `participant2@example.com` / `password123`
 
-## Полезные команды Docker
-
-```bash
-docker compose ps
-docker compose logs -f
-docker compose down
-docker compose down -v
-docker compose up -d --build
-```
 
 ## Примечания
 
 - ORM в проекте не используется
 - SQL-запросы выполняются через пакет `pg`
 - пароли хешируются на стороне PostgreSQL через `pgcrypto`
-- backend и frontend могут запускаться отдельно или через Docker
