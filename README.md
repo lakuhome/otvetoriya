@@ -129,18 +129,6 @@ docker compose up --build
 - `server` — Node.js / Express
 - `client` — Nginx + собранный frontend
 
-### Остановка
-
-```bash
-docker compose down
-```
-
-### Полный сброс
-
-```bash
-docker compose down -v
-```
-
 
 ## Тестовые учетные записи
 
