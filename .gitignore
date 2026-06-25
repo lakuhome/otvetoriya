@@ -1,10 +1,6 @@
 .DS_Store
 Thumbs.db
 
-# Codex temp
-.codex_tmp/
-.codex-temp/
-
 # Dependencies
 node_modules/
 client/node_modules/
